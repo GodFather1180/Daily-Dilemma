@@ -1,0 +1,85 @@
+[project]
+name = "user_service"
+version = "0.0.1"
+authors = [
+  { name="Tarun", email="tda47@sfu.ca" },
+  { name="Peyton", email="pyd@sfu.ca"},
+]
+description = "A small user service"
+readme = "README.md"
+requires-python = ">=3.13"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = [
+    "alembic>=1.16.5",
+    "dotenv>=0.9.9",
+    "fastapi>=0.117.1",
+    "bcrypt>=4.0.0",
+    "nicegui>=2.24.2",
+    "psycopg2-binary>=2.9.10",
+    "pydantic>=2.11.9",
+    "pytest-cov>=7.0.0",
+    "email-validator>=2.1",
+    "sqlalchemy>=2.0.43",
+    "pillow>=10.0.0",
+    "authlib>=1.3.0",
+    "cryptography>=42.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+    "ruff>=0.13.2",
+]
+
+
+[tool.ruff]
+line-length = 88
+
+exclude = [
+    ".env",
+    "env",
+    "alembic/env.py",
+    "venv",
+    ".venv",
+    "database.py",
+    "scripts/seed_game_data.py",
+    "alembic/versions",
+    "postgres_data",
+]
+
+
+[tool.ruff.lint]
+extend-select = ["E", "F"]
+per-file-ignores = { "alembic/env.py" = ["E402"], "src/admin/main.py" = ["F401", "F841"], "src/shared/database.py" = ["F401"], "src/user_service/api.py" = ["F401"] }
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/user_service"]
+
+
+[tool.coverage.run]
+branch = true
+source = [
+  "src/user_service",
+  "src/game",
+]
+omit = [
+  "*/__init__.py",
+]
+
+[tool.coverage.report]
+precision = 1
+show_missing = true
